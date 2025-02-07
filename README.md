@@ -51,3 +51,12 @@ print("\
 Top 10 differentially expressed genes:")
 head(res_ordered, 10)
 ```
+## Save the cleaned DESeq2 results to a CSV file
+```
+write.csv(as.data.frame(res_ordered), file = "DESeq2_results_cleaned.csv")
+```
+## Verify the file was created
+```
+file.exists("DESeq2_results_cleaned.csv")
+
+```
