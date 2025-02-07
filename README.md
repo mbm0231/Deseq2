@@ -60,3 +60,51 @@ write.csv(as.data.frame(res_ordered), file = "DESeq2_results_cleaned.csv")
 file.exists("DESeq2_results_cleaned.csv")
 
 ```
+## Save the cleaned DESeq2 results to a CSV file
+```
+write.csv(as.data.frame(res_ordered), file = "DESeq2_results_cleaned.csv")
+```
+## Verify the file was created
+```
+file.exists("DESeq2_results_cleaned.csv")
+```
+## Load control data from the Excel files
+```
+library(readxl)
+df1 <- read_excel("1_S27_dataframe.xlsx")
+df2 <- read_excel("2_S28_dataframe.xlsx")
+```
+## Clean control data
+```
+df1_clean <- df1[, c("V1", "V3")]
+df2_clean <- df2[, c("V1", "V3")]
+colnames(df1_clean) <- c("Gene", "Control1")
+colnames(df2_clean) <- c("Gene", "Control2")
+```
+## Load treatment data
+```
+treatment_data <- read.table("3_S29counts.txt", header = FALSE, sep = "\	", 
+                           col.names = c("Gene", "Symbol", "Treatment2"))
+treatment_data_clean <- treatment_data[, c("Gene", "Treatment2")]
+```
+## Merge all data
+```
+merged_df <- merge(df1_clean, df2_clean, by = "Gene", all = TRUE)
+merged_df <- merge(merged_df, treatment_data_clean, by = "Gene", all = TRUE)
+```
+## Remove rows with missing values
+```
+merged_df <- na.omit(merged_df)
+```
+## Print dimensions of merged data
+```
+print("Dimensions of merged dataset:")
+dim(merged_df)
+```
+## Show first few rows
+```
+print("\
+First few rows of merged dataset:")
+head(merged_df)
+
+```
