@@ -108,3 +108,41 @@ First few rows of merged dataset:")
 head(merged_df)
 
 ```
+
+## Install BiocManager if not already installed
+```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+```
+## Install DESeq2
+```
+BiocManager::install("DESeq2")
+```
+##Load library
+```
+library(DESeq2)
+```
+## Run DESeq2 analysis
+```
+dds <- DESeqDataSetFromMatrix(
+    countData = round(counts_matrix),
+    colData = colData,
+    design = ~ condition
+)
+dds <- DESeq(dds)
+res <- results(dds)
+res_ordered <- res[order(res$padj), ]
+```
+## Save results
+```
+write.csv(as.data.frame(res_ordered), "DESeq2_results_with_new_treatment.csv")
+```
+## Print summary
+```
+print("Summary of DESeq2 results:")
+summary(res)
+
+print("\
+Top 10 differentially expressed genes:")
+head(res_ordered, 10)
+```
