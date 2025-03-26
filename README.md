@@ -12,9 +12,10 @@ cleaned_df <- aggregate(cbind(Control1, Control2, Treatment1) ~ Gene,
 cleaned_df <- na.omit(cleaned_df)
 ```
 ## Create the count matrix
+```
 counts_matrix <- as.matrix(cleaned_df[, -1])
 rownames(counts_matrix) <- cleaned_df$Gene
-
+```
 ## Create the column data
 ```
 colData <- data.frame(
